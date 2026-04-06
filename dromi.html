@@ -126,30 +126,32 @@ function toggleMenu() {
 fetch("https://raw.githubusercontent.com/DeMENIGECO/Dromi/refs/heads/main/README.md")
   .then(r => r.text())
   .then(md => {
+    md = convertGitHubBlocks(md);   // <-- trasformiamo tutti i blocchi
+    document.getElementById("content").innerHTML = marked.parse(md);
+  })
+  .catch(err => {
+    document.getElementById("content").innerText = "Errore 😢";
+    console.error(err);
+  });
 
-    // NOTE
-    md = md.replace(/> \[!NOTE\]\n((> .*\n?)*)/g, m => {
-      let c = m.replace(/> \[!NOTE\]\n/, "").replace(/^> /gm, "");
-      return `<div class="note-box">📝 ${c}</div>`;
-    });
+    // Funzione per trasformare i blocchi GitHub speciali
+function convertGitHubBlocks(md) {
+  const types = [
+    {regex: /(^> [!NOTE]\n(?:> .*\n?)+)/gm, className: "note-box", icon:"📝"},
+    {regex: /(^> [!TIP]\n(?:> .*\n?)+)/gm, className: "tip-box", icon:"💡"},
+    {regex: /(^> [!WARNING]\n(?:> .*\n?)+)/gm, className: "warning-box", icon:"⚠️"},
+    {regex: /(^> [!CAUTION]\n(?:> .*\n?)+)/gm, className: "caution-box", icon:"🚨"}
+  ];
 
-    // TIP
-    md = md.replace(/> \[!TIP\]\n((> .*\n?)*)/g, m => {
-      let c = m.replace(/> \[!TIP\]\n/, "").replace(/^> /gm, "");
-      return `<div class="tip-box">💡 ${c}</div>`;
+  types.forEach(t => {
+    md = md.replace(t.regex, m => {
+      let content = m.replace(/^> ![A-Z]+\n?/, "").replace(/^> ?/gm, "");
+      return `<div class="${t.className}">${t.icon} ${content}</div>`;
     });
+  });
 
-    // WARNING
-    md = md.replace(/> \[!WARNING\]\n((> .*\n?)*)/g, m => {
-      let c = m.replace(/> \[!WARNING\]\n/, "").replace(/^> /gm, "");
-      return `<div class="warning-box">⚠️ ${c}</div>`;
-    });
-
-    // CAUTION
-    md = md.replace(/> \[!CAUTION\]\n((> .*\n?)*)/g, m => {
-      let c = m.replace(/> \[!CAUTION\]\n/, "").replace(/^> /gm, "");
-      return `<div class="caution-box">🚨 ${c}</div>`;
-    });
+  return md;
+}
 
     document.getElementById("content").innerHTML = marked.parse(md);
   })
