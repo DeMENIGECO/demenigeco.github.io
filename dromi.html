@@ -148,7 +148,7 @@ function convertGitHubBlocks(md) {
 }
 
 // Carica markdown da GitHub e converte
-fetch("https://raw.githubusercontent.com/DeMENIGECO/Dromi/refs/heads/main/README.md")
+fetch("https://raw.githubusercontent.com/DeMENIGECO/Dromi/refs/heads/main/.github/WELCOME.md")
   .then(r => r.text())
   .then(md => {
     md = convertGitHubBlocks(md);
