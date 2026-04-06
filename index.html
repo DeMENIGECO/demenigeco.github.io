@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Sito Verde</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background-color: #e8f5e9;
+}
+
+/* HEADER */
+header {
+  background-color: #2e7d32;
+  color: white;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+}
+
+/* HAMBURGER */
+.menu-btn {
+  font-size: 25px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: #388e3c;
+  transition: 0.3s;
+  z-index: 1000;
+}
+
+/* IFRAME MENU */
+.sidebar iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* CONTENUTO */
+.content {
+  padding: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  <h2>Il Mio Sito</h2>
+</header>
+
+<div id="sidebar" class="sidebar">
+  
+  <!-- Pulsante chiudi -->
+  <div style="padding:10px; text-align:right;">
+    <span style="font-size:25px; cursor:pointer; color:white;" onclick="toggleMenu()">❌</span>
+  </div>
+
+  <!-- Menu iframe -->
+  <iframe src="menubar.html"></iframe>
+
+</div>
+
+<div class="content">
+  <h1>Benvenuto!</h1>
+  <p>Usa il menu per esplorare</p>
+</div>
+
+<script>
+function toggleMenu() {
+  let sidebar = document.getElementById("sidebar");
+  
+  if (sidebar.style.left === "0px") {
+    sidebar.style.left = "-300px";
+  } else {
+    sidebar.style.left = "0px";
+  }
+}
+</script>
+
+</body>
+</html>
