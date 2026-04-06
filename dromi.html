@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+    <!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8">
@@ -118,34 +119,24 @@ h1, h2, h3 {
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <script>
+// Toggle menu
 function toggleMenu() {
   let sidebar = document.getElementById("sidebar");
   sidebar.style.left = (sidebar.style.left === "0px") ? "-300px" : "0px";
 }
 
-fetch("https://raw.githubusercontent.com/DeMENIGECO/Dromi/refs/heads/main/README.md")
-  .then(r => r.text())
-  .then(md => {
-    md = convertGitHubBlocks(md);   // <-- trasformiamo tutti i blocchi
-    document.getElementById("content").innerHTML = marked.parse(md);
-  })
-  .catch(err => {
-    document.getElementById("content").innerText = "Errore 😢";
-    console.error(err);
-  });
-
-    // Funzione per trasformare i blocchi GitHub speciali
+// Funzione per convertire i blocchi GitHub
 function convertGitHubBlocks(md) {
   const types = [
-    {regex: /(^> [!NOTE]\n(?:> .*\n?)+)/gm, className: "note-box", icon:"📝"},
-    {regex: /(^> [!TIP]\n(?:> .*\n?)+)/gm, className: "tip-box", icon:"💡"},
-    {regex: /(^> [!WARNING]\n(?:> .*\n?)+)/gm, className: "warning-box", icon:"⚠️"},
-    {regex: /(^> [!CAUTION]\n(?:> .*\n?)+)/gm, className: "caution-box", icon:"🚨"}
+    {regex: /(^> \[!NOTE\]\n(?:> .*\n?)+)/gm, className: "note-box", icon:"📝"},
+    {regex: /(^> \[!TIP\]\n(?:> .*\n?)+)/gm, className: "tip-box", icon:"💡"},
+    {regex: /(^> \[!WARNING\]\n(?:> .*\n?)+)/gm, className: "warning-box", icon:"⚠️"},
+    {regex: /(^> \[!CAUTION\]\n(?:> .*\n?)+)/gm, className: "caution-box", icon:"🚨"}
   ];
 
   types.forEach(t => {
     md = md.replace(t.regex, m => {
-      let content = m.replace(/^> ![A-Z]+\n?/, "").replace(/^> ?/gm, "");
+      let content = m.replace(/^> \[![A-Z]+\]\n?/, "").replace(/^> ?/gm, "");
       return `<div class="${t.className}">${t.icon} ${content}</div>`;
     });
   });
@@ -153,6 +144,11 @@ function convertGitHubBlocks(md) {
   return md;
 }
 
+// Carica markdown da GitHub e converte
+fetch("https://raw.githubusercontent.com/DeMENIGECO/Dromi/refs/heads/main/README.md")
+  .then(r => r.text())
+  .then(md => {
+    md = convertGitHubBlocks(md);
     document.getElementById("content").innerHTML = marked.parse(md);
   })
   .catch(err => {
