@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Dromi</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background-color: #e8f5e9;
+}
+
+/* HEADER */
+header {
+  background-color: #2e7d32;
+  color: white;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.menu-btn {
+  font-size: 25px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: #388e3c;
+  transition: 0.3s;
+  z-index: 1000;
+}
+
+.sidebar iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* CONTENUTO */
+.content {
+  padding: 20px;
+}
+
+/* BOX MARKDOWN */
+.note-box {
+  background: #e3f2fd;
+  border-left: 5px solid #2196f3;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.tip-box {
+  background: #c8e6c9;
+  border-left: 5px solid #2e7d32;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.warning-box {
+  background: #fff3cd;
+  border-left: 5px solid #ff9800;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.caution-box {
+  background: #ffcdd2;
+  border-left: 5px solid #d32f2f;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+/* contenuto markdown */
+#content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+h1, h2, h3 {
+  color: #2e7d32;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  <h2>Dromi</h2>
+</header>
+
+<div id="sidebar" class="sidebar">
+  <div style="padding:10px; text-align:right;">
+    <span style="font-size:25px; cursor:pointer; color:white;" onclick="toggleMenu()">❌</span>
+  </div>
+  <iframe src="menubar.html"></iframe>
+</div>
+
+<div class="content">
+  <h1>📄 Documentazione</h1>
+  <div id="content">Caricamento...</div>
+</div>
+
+<!-- MARKDOWN LIB -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<script>
+function toggleMenu() {
+  let sidebar = document.getElementById("sidebar");
+  sidebar.style.left = (sidebar.style.left === "0px") ? "-300px" : "0px";
+}
+
+fetch("https://raw.githubusercontent.com/DeMENIGECO/Dromi/refs/heads/main/README.md")
+  .then(r => r.text())
+  .then(md => {
+
+    // NOTE
+    md = md.replace(/> \[!NOTE\]\n((> .*\n?)*)/g, m => {
+      let c = m.replace(/> \[!NOTE\]\n/, "").replace(/^> /gm, "");
+      return `<div class="note-box">📝 ${c}</div>`;
+    });
+
+    // TIP
+    md = md.replace(/> \[!TIP\]\n((> .*\n?)*)/g, m => {
+      let c = m.replace(/> \[!TIP\]\n/, "").replace(/^> /gm, "");
+      return `<div class="tip-box">💡 ${c}</div>`;
+    });
+
+    // WARNING
+    md = md.replace(/> \[!WARNING\]\n((> .*\n?)*)/g, m => {
+      let c = m.replace(/> \[!WARNING\]\n/, "").replace(/^> /gm, "");
+      return `<div class="warning-box">⚠️ ${c}</div>`;
+    });
+
+    // CAUTION
+    md = md.replace(/> \[!CAUTION\]\n((> .*\n?)*)/g, m => {
+      let c = m.replace(/> \[!CAUTION\]\n/, "").replace(/^> /gm, "");
+      return `<div class="caution-box">🚨 ${c}</div>`;
+    });
+
+    document.getElementById("content").innerHTML = marked.parse(md);
+  })
+  .catch(err => {
+    document.getElementById("content").innerText = "Errore 😢";
+    console.error(err);
+  });
+</script>
+
+</body>
+</html>
