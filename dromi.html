@@ -1,5 +1,4 @@
-
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8">
@@ -111,7 +110,6 @@ h1, h2, h3 {
 </div>
 
 <div class="content">
-  <h1>📄 Documentazione</h1>
   <div id="content">Caricamento...</div>
 </div>
 
@@ -128,15 +126,20 @@ function toggleMenu() {
 // Funzione per convertire i blocchi GitHub
 function convertGitHubBlocks(md) {
   const types = [
-    {regex: /(^> \[!NOTE\]\n(?:> .*\n?)+)/gm, className: "note-box", icon:"📝"},
-    {regex: /(^> \[!TIP\]\n(?:> .*\n?)+)/gm, className: "tip-box", icon:"💡"},
-    {regex: /(^> \[!WARNING\]\n(?:> .*\n?)+)/gm, className: "warning-box", icon:"⚠️"},
-    {regex: /(^> \[!CAUTION\]\n(?:> .*\n?)+)/gm, className: "caution-box", icon:"🚨"}
+    {tag: "NOTE", className:"note-box", icon:"📝"},
+    {tag: "TIP", className:"tip-box", icon:"💡"},
+    {tag: "WARNING", className:"warning-box", icon:"⚠️"},
+    {tag: "CAUTION", className:"caution-box", icon:"🚨"}
   ];
 
   types.forEach(t => {
-    md = md.replace(t.regex, m => {
-      let content = m.replace(/^> \[![A-Z]+\]\n?/, "").replace(/^> ?/gm, "");
+    // regex che cattura:
+    // eventuali spazi iniziali + > + [!TIP] + tutto il blocco di quote
+    const regex = new RegExp(`(^\\s*> \\[!${t.tag}\\]\\s*\\n(?:\\s*>.*\\n?)+)`, "gm");
+    md = md.replace(regex, m => {
+      // togli il primo > [!TIP] e tutti i > iniziali di ogni riga
+      let content = m.replace(new RegExp(`^\\s*> \\[!${t.tag}\\]\\s*\\n?`), "")
+                     .replace(/^\s*> ?/gm, "");
       return `<div class="${t.className}">${t.icon} ${content}</div>`;
     });
   });
