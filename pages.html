@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<title>Il mio sito</title>
+<title>Pagine</title>
 
 <style>
 body {
@@ -50,6 +50,28 @@ header {
 .content {
   padding: 20px;
 }
+
+  .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.card {
+  display: block;
+  background: #66bb6a;
+  padding: 20px;
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.card:hover {
+  background: #2e7d32;
+  transform: scale(1.05);
+}
 </style>
 </head>
 
@@ -76,18 +98,19 @@ header {
   <h1>Le mie pagine</h1>
   <p>Eccole:</p>
 
-  <b>GitHub Pages</b>
-  <ul>
-    <li><a href="https://demenigeco.github.io/LucertolaOS/">LucertolaOS</a></li>
-    <li><a href="https://demenigeco.github.io/dsapps/">DomePrograms</a></li>
-    <li><a href="https://demenigeco.github.io/mcOS/">LucertolaOS</a></li>
-    <li><a href="https://demenigeco.github.io/HelloOS/">HelloOS</a></li>
-  </ul>
+  <h2>🌐 GitHub Pages</h2>
 
-  <b>Altri siti web</b>
-  <ul>
-    <li><a href="https://qrcd.it/domenico">Sito dei miei progetti</a></li>
-  </ul>
+<div class="cards">
+  <a href="https://demenigeco.github.io/LucertolaOS/" class="card">🦎 LucertolaOS</a>
+  <a href="https://demenigeco.github.io/dsapps/" class="card">💻 DomePrograms</a>
+  <a href="https://demenigeco.github.io/mcOS/" class="card">🎮 mcOS</a>
+  <a href="https://demenigeco.github.io/HelloOS/" class="card">👋 HelloOS</a>
+</div>
+
+<h2>🔗 Altri siti</h2>
+
+<div class="cards">
+  <a href="https://qrcd.it/domenico" class="card">🚀 I miei progetti</a>
 </div>
 
 <script>
