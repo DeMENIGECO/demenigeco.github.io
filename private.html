@@ -128,15 +128,16 @@ function checkToken() {
 
   let savedToken = localStorage.getItem("activeToken");
 
+  // Se non c'è token → resta nel login
   if (!token) return;
 
-  // Se non esiste, lo salvo
+  // Se è il primo accesso → salva token
   if (!savedToken) {
     localStorage.setItem("activeToken", token);
     savedToken = token;
   }
 
-  // Controllo token
+  // Se token diverso → blocca
   if (token !== savedToken) {
     document.body.innerHTML = `
       <div style="text-align:center; padding:50px;">
@@ -146,7 +147,7 @@ function checkToken() {
     return;
   }
 
-  // Nasconde login
+  // Nascondi login
   document.getElementById("loginBox").style.display = "none";
 
   // Mostra tab
@@ -163,14 +164,6 @@ function checkToken() {
     window.location.href = window.location.pathname;
   }
 }
-
-  document.getElementById("loginBox").style.display = "none";
-
-  if (!tab) {
-    showTab("home");
-    return;
-  }
-
 
 // MOSTRA TAB
 function showTab(name) {
