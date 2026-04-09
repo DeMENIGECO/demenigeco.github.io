@@ -171,14 +171,6 @@ function checkToken() {
     return;
   }
 
-  const tabElement = document.getElementById("tab-" + tab);
-
-  if (tabElement) {
-    showTab(tab);
-  } else {
-    window.location.href = window.location.pathname;
-  }
-}
 
 // MOSTRA TAB
 function showTab(name) {
