@@ -126,20 +126,18 @@ function checkToken() {
   const token = params.get("token");
   const tab = params.get("tab");
 
-  const savedToken = localStorage.getItem("activeToken");
+  let savedToken = localStorage.getItem("activeToken");
 
   if (!token) return;
 
-  let currentToken = savedToken;
+  // Se non esiste, lo salvo
+  if (!savedToken) {
+    localStorage.setItem("activeToken", token);
+    savedToken = token;
+  }
 
-  if (!currentToken) {
-  localStorage.setItem("activeToken", token);
-  currentToken = token; // 🔥 FIX
-}
-
-if (currentToken && token !== currentToken) {
-
-  if (savedToken && token !== savedToken) {
+  // Controllo token
+  if (token !== savedToken) {
     document.body.innerHTML = `
       <div style="text-align:center; padding:50px;">
         <h1 style="color:red;">🚫 Token non valido</h1>
@@ -147,6 +145,24 @@ if (currentToken && token !== currentToken) {
     `;
     return;
   }
+
+  // Nasconde login
+  document.getElementById("loginBox").style.display = "none";
+
+  // Mostra tab
+  if (!tab) {
+    showTab("home");
+    return;
+  }
+
+  const tabElement = document.getElementById("tab-" + tab);
+
+  if (tabElement) {
+    showTab(tab);
+  } else {
+    window.location.href = window.location.pathname;
+  }
+}
 
   document.getElementById("loginBox").style.display = "none";
 
