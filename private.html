@@ -130,9 +130,14 @@ function checkToken() {
 
   if (!token) return;
 
-  if (!savedToken) {
-    localStorage.setItem("activeToken", token);
-  }
+  let currentToken = savedToken;
+
+  if (!currentToken) {
+  localStorage.setItem("activeToken", token);
+  currentToken = token; // 🔥 FIX
+}
+
+if (currentToken && token !== currentToken) {
 
   if (savedToken && token !== savedToken) {
     document.body.innerHTML = `
