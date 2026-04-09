@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<title>Accesso</title>
+<title>Sito Web</title>
 
 <style>
 body {
@@ -15,12 +15,11 @@ body {
   height: 100vh;
 }
 
-/* BOX LOGIN */
 .login-box {
   background: white;
   padding: 30px;
   border-radius: 10px;
-  width: 300px;
+  width: 320px;
   text-align: center;
 }
 
@@ -28,21 +27,22 @@ h2 {
   color: #2e7d32;
 }
 
-input {
+input, textarea, button {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
-  border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+textarea {
+  resize: none;
+  height: 80px;
 }
 
 button {
   background: #2e7d32;
   color: white;
   border: none;
-  padding: 10px;
-  width: 100%;
-  border-radius: 5px;
   cursor: pointer;
 }
 
@@ -52,13 +52,18 @@ button:hover {
 
 .error {
   color: red;
-  font-size: 14px;
+}
+
+.success {
+  color: green;
+  font-weight: bold;
 }
 </style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
 <div class="login-box" id="loginBox">
   <h2>🔐 Login</h2>
   <input type="text" id="user" placeholder="Nome utente">
@@ -67,56 +72,134 @@ button:hover {
   <p class="error" id="error"></p>
 </div>
 
-<div class="login-box" id="contentBox" style="display:none;">
-  <h2>✅ Accesso riuscito</h2>
-  <p>Benvenuto nel sito!</p>
+<!-- TAB HOME -->
+<div class="login-box tab" id="tab-home" style="display:none;">
+  <h2>🏠 Home</h2>
+  <p>
+    <a href="#" onclick="vaiTab('home')">✅ Home</a>,
+    <a href="#" onclick="vaiTab('firma')">Firma</a>,
+    <a href="#" onclick="logout()">Esci</a>
+  </p>
+  <p>Ciao domenicotheadmin 👋</p>
+  <p>Vai alla sezione firma!</p>
+</div>
+
+<!-- TAB FIRMA -->
+<div class="login-box tab" id="tab-firma" style="display:none;">
+  <h2>💳 Firma</h2>
+
+  <p>
+    <a href="#" onclick="vaiTab('home')">Home</a>,
+    <a href="#" onclick="vaiTab('firma')">✅ Firma</a>,
+    <a href="#" onclick="logout()">Esci</a>
+  </p>
+
+  <input type="text" id="lezione" placeholder="Numero lezione">
+  <input type="text" id="nomeLezione" placeholder="Nome lezione">
+  <textarea id="argomenti" placeholder="Argomenti"></textarea>
+
+  <button onclick="firma()">Firma</button>
+
+  <p id="firmaMsg"></p>
 </div>
 
 <script>
-// 👇 credenziali definite nel JS
 const USERNAME = "domenicotheadmin";
-const PASSWORD = "ySè88l"
-// login
+const PASSWORD = "ySè88l";
+
+// LOGIN
 function login() {
   let u = document.getElementById("user").value;
   let p = document.getElementById("pass").value;
 
   if (u === USERNAME && p === PASSWORD) {
     let token = Math.floor(Math.random() * 1000000);
-    window.location.href = "?token=" + token;
+    window.location.href = "?token=" + token + "&tab=home";
   } else {
     document.getElementById("error").innerText = "Credenziali sbagliate!";
   }
 }
 
-// controllo token
+// CONTROLLO TOKEN + TAB
 function checkToken() {
   const params = new URLSearchParams(window.location.search);
   const token = params.get("token");
+  const tab = params.get("tab");
+
+  const savedToken = localStorage.getItem("activeToken");
 
   if (!token) return;
 
-  let usedTokens = JSON.parse(localStorage.getItem("usedTokens") || "[]");
+  if (!savedToken) {
+    localStorage.setItem("activeToken", token);
+  }
 
-  if (usedTokens.includes(token)) {
-    // già usato
+  if (savedToken && token !== savedToken) {
     document.body.innerHTML = `
       <div style="text-align:center; padding:50px;">
-        <h1 style="color:red;">🚫 Token già usato</h1>
+        <h1 style="color:red;">🚫 Token non valido</h1>
       </div>
     `;
-  } else {
-    // nuovo token
-    usedTokens.push(token);
-    localStorage.setItem("usedTokens", JSON.stringify(usedTokens));
+    return;
+  }
 
-    // mostra contenuto
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("contentBox").style.display = "block";
+  document.getElementById("loginBox").style.display = "none";
+
+  if (!tab) {
+    showTab("home");
+    return;
+  }
+
+  const tabElement = document.getElementById("tab-" + tab);
+
+  if (tabElement) {
+    showTab(tab);
+  } else {
+    window.location.href = window.location.pathname;
   }
 }
 
-// esegui controllo
+// MOSTRA TAB
+function showTab(name) {
+  document.querySelectorAll(".tab").forEach(el => el.style.display = "none");
+  document.getElementById("tab-" + name).style.display = "block";
+}
+
+// CAMBIO TAB
+function vaiTab(tab) {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("token");
+  window.location.href = "?token=" + token + "&tab=" + tab;
+}
+
+// LOGOUT
+function logout() {
+  localStorage.removeItem("activeToken");
+  window.location.href = window.location.pathname;
+}
+
+// FIRMA
+function firma() {
+  let lezione = document.getElementById("lezione").value;
+  let nome = document.getElementById("nomeLezione").value;
+  let argomenti = document.getElementById("argomenti").value;
+
+  if (!lezione || !nome || !argomenti) {
+    document.getElementById("firmaMsg").innerHTML =
+      "<span class='error'>Compila tutti i campi!</span>";
+    return;
+  }
+
+  document.getElementById("firmaMsg").innerHTML =
+    "<span class='success'>✅ Firmato!</span>";
+
+  // reset campi
+  document.getElementById("lezione").value = "";
+  document.getElementById("nomeLezione").value = "";
+  document.getElementById("argomenti").value = "";
+}
+
+// AVVIO
 checkToken();
 </script>
 
