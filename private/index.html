@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Accesso</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background-color: #e8f5e9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* BOX LOGIN */
+.login-box {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+}
+
+h2 {
+  color: #2e7d32;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1b5e20;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-box" id="loginBox">
+  <h2>🔐 Login</h2>
+  <input type="text" id="user" placeholder="Nome utente">
+  <input type="password" id="pass" placeholder="Password">
+  <button onclick="login()">Accedi</button>
+  <p class="error" id="error"></p>
+</div>
+
+<div class="login-box" id="contentBox" style="display:none;">
+  <h2>✅ Accesso riuscito</h2>
+  <p>Benvenuto nel sito!</p>
+</div>
+
+<script>
+// 👇 credenziali definite nel JS
+const USERNAME = "domenicotheadmin";
+const PASSWORD = "ySè88l"
+// login
+function login() {
+  let u = document.getElementById("user").value;
+  let p = document.getElementById("pass").value;
+
+  if (u === USERNAME && p === PASSWORD) {
+    let token = Math.floor(Math.random() * 1000000);
+    window.location.href = "?token=" + token;
+  } else {
+    document.getElementById("error").innerText = "Credenziali sbagliate!";
+  }
+}
+
+// controllo token
+function checkToken() {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("token");
+
+  if (!token) return;
+
+  let usedTokens = JSON.parse(localStorage.getItem("usedTokens") || "[]");
+
+  if (usedTokens.includes(token)) {
+    // già usato
+    document.body.innerHTML = `
+      <div style="text-align:center; padding:50px;">
+        <h1 style="color:red;">🚫 Token già usato</h1>
+      </div>
+    `;
+  } else {
+    // nuovo token
+    usedTokens.push(token);
+    localStorage.setItem("usedTokens", JSON.stringify(usedTokens));
+
+    // mostra contenuto
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("contentBox").style.display = "block";
+  }
+}
+
+// esegui controllo
+checkToken();
+</script>
+
+</body>
+</html>
