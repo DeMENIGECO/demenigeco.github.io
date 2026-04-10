@@ -98,12 +98,12 @@ function goTo(tab) {
   const usercode = localStorage.getItem("usercode");
   const newToken = generateToken();
 
-  localStorage.setItem("used_" + newToken, "yes");
+  // ❌ NON segnare qui il token come usato
 
   window.location.href =
     `reg.html?token=${newToken}&usercode=${usercode}&tab=${tab}`;
 }
-
+  
 // 🖥️ Render contenuto
 function render(tab) {
   const content = document.getElementById("content");
