@@ -1,93 +1,766 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<title>Il mio sito</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background-color: #e8f5e9;
-}
+    <title>DomeniGeco — Giovane Programmatore</title>
 
-/* HEADER */
-header {
-  background-color: #2e7d32;
-  color: white;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-}
+    <meta name="description"
+          content="Portfolio personale di DomeniGeco, giovane programmatore italiano appassionato di Python, HTML, CSS e JavaScript.">
 
-/* HAMBURGER */
-.menu-btn {
-  font-size: 25px;
-  cursor: pointer;
-  margin-right: 15px;
-}
+    <style>
+        :root {
+            --bg: #07100b;
+            --bg-secondary: #0d1811;
+            --card: #101c14;
+            --border: #1d3324;
+            --text: #f2f7f3;
+            --muted: #9eafa3;
+            --green: #39d353;
+            --green-dark: #1f9d3a;
+            --green-light: #7ee787;
+        }
 
-/* SIDEBAR */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: -300px;
-  width: 300px;
-  height: 100%;
-  background-color: #388e3c;
-  transition: 0.3s;
-  z-index: 1000;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-/* IFRAME MENU */
-.sidebar iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-/* CONTENUTO */
-.content {
-  padding: 20px;
-}
-</style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+
+            background: rgba(7, 16, 11, 0.85);
+            backdrop-filter: blur(12px);
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 18px 25px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: var(--green);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+
+            padding: 120px 20px 80px;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(57, 211, 83, 0.12),
+                    transparent 40%
+                );
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .hero-icon {
+            font-size: 70px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 8vw, 76px);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--green);
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--muted);
+            margin-bottom: 35px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: bold;
+            border: 1px solid var(--border);
+            transition: 0.2s;
+        }
+
+        .button-primary {
+            background: var(--green);
+            color: #061008;
+        }
+
+        .button-primary:hover {
+            background: var(--green-light);
+            transform: translateY(-2px);
+        }
+
+        .button-secondary {
+            background: var(--card);
+        }
+
+        .button-secondary:hover {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        /* GENERAL */
+
+        section {
+            max-width: 1100px;
+            margin: auto;
+            padding: 90px 25px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .section-title span {
+            color: var(--green);
+        }
+
+        .section-description {
+            color: var(--muted);
+            margin-bottom: 35px;
+        }
+
+        /* ABOUT */
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .about-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .about-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .about-card p {
+            color: var(--muted);
+        }
+
+        /* TECHNOLOGIES */
+
+        .technologies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tech {
+            padding: 12px 18px;
+            border-radius: 10px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            font-weight: bold;
+        }
+
+        .tech:hover {
+            border-color: var(--green);
+        }
+
+        /* PROJECTS */
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .project {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-number {
+            color: var(--green);
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .project h3 {
+            font-size: 23px;
+            margin-bottom: 10px;
+        }
+
+        .project p {
+            color: var(--muted);
+            flex: 1;
+            margin-bottom: 20px;
+        }
+
+        .project-link {
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        .project-link:hover {
+            text-decoration: underline;
+        }
+
+        /* GOALS */
+
+        .goals {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .goal {
+            padding: 18px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        /* CONTACTS */
+
+        .contacts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .contact {
+            padding: 13px 18px;
+            border-radius: 10px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            transition: 0.2s;
+        }
+
+        .contact:hover {
+            border-color: var(--green);
+            color: var(--green);
+            transform: translateY(-2px);
+        }
+
+        /* FOOTER */
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 35px 20px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        footer strong {
+            color: var(--green);
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .about-grid,
+            .projects,
+            .goals {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: 90vh;
+            }
+
+            section {
+                padding: 65px 20px;
+            }
+
+            .section-title {
+                font-size: 30px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-  <div class="menu-btn" onclick="toggleMenu()">☰</div>
-  <h2>Il Mio Sito</h2>
-</header>
+    <!-- NAVBAR -->
 
-<div id="sidebar" class="sidebar">
-  
-  <!-- Pulsante chiudi -->
-  <div style="padding:10px; text-align:right;">
-    <span style="font-size:25px; cursor:pointer; color:white;" onclick="toggleMenu()">❌</span>
-  </div>
+    <nav>
+        <div class="nav-container">
 
-  <!-- Menu iframe -->
-  <iframe src="menubar.html"></iframe>
+            <a href="#" class="logo">
+                <span>Domeni</span>Geco
+            </a>
 
-</div>
+            <ul class="nav-links">
+                <li><a href="#about">Su di me</a></li>
+                <li><a href="#tech">Tecnologie</a></li>
+                <li><a href="#projects">Progetti</a></li>
+                <li><a href="#goals">Obiettivi</a></li>
+                <li><a href="#contacts">Contatti</a></li>
+            </ul>
 
-<div class="content">
-  <h1>Benvenuto!</h1>
-  <p>Usa il menu per esplorare</p>
-</div>
+        </div>
+    </nav>
 
-<script>
-function toggleMenu() {
-  let sidebar = document.getElementById("sidebar");
-  
-  if (sidebar.style.left === "0px") {
-    sidebar.style.left = "-300px";
-  } else {
-    sidebar.style.left = "0px";
-  }
-}
-</script>
+
+    <!-- HERO -->
+
+    <header class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-icon">👋</div>
+
+            <h1>
+                Ciao! Sono <span>DomeniGeco</span>
+            </h1>
+
+            <p>
+                Giovane programmatore italiano 🇮🇹<br>
+                Python • HTML • CSS • JavaScript
+            </p>
+
+            <div class="buttons">
+
+                <a
+                    class="button button-primary"
+                    href="#projects"
+                >
+                    🚀 Guarda i miei progetti
+                </a>
+
+                <a
+                    class="button button-secondary"
+                    href="https://github.com/DeMENIGECO"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    GitHub →
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ABOUT -->
+
+    <section id="about">
+
+        <h2 class="section-title">
+            🚀 <span>Su di me</span>
+        </h2>
+
+        <p class="section-description">
+            Mi piace creare, sperimentare e capire come funzionano
+            le tecnologie che utilizzo.
+        </p>
+
+        <div class="about-grid">
+
+            <div class="about-card">
+                <h3>🌱 Sto imparando</h3>
+                <p>
+                    HTML, CSS, JavaScript e Python,
+                    migliorando continuamente le mie capacità.
+                </p>
+            </div>
+
+            <div class="about-card">
+                <h3>🧠 Curiosità</h3>
+                <p>
+                    Mi piace capire cosa succede dietro le quinte
+                    dei siti web e dei programmi.
+                </p>
+            </div>
+
+            <div class="about-card">
+                <h3>🎨 Design</h3>
+                <p>
+                    Amo creare interfacce belle, semplici
+                    e facili da utilizzare.
+                </p>
+            </div>
+
+            <div class="about-card">
+                <h3>💡 Sperimentazione</h3>
+                <p>
+                    Creo tanti progetti per imparare nuove
+                    tecnologie e migliorare le mie skill.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TECHNOLOGIES -->
+
+    <section id="tech">
+
+        <h2 class="section-title">
+            🛠️ <span>Tecnologie</span>
+        </h2>
+
+        <p class="section-description">
+            Alcune delle tecnologie che utilizzo nei miei progetti.
+        </p>
+
+        <div class="technologies">
+
+            <div class="tech">🌐 HTML5</div>
+            <div class="tech">🎨 CSS3</div>
+            <div class="tech">⚡ JavaScript</div>
+            <div class="tech">🐍 Python</div>
+            <div class="tech">🟢 Node.js</div>
+            <div class="tech">🐙 Git & GitHub</div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PROJECTS -->
+
+    <section id="projects">
+
+        <h2 class="section-title">
+            🌍 <span>Progetti</span>
+        </h2>
+
+        <p class="section-description">
+            Alcuni dei progetti più importanti a cui ho lavorato.
+        </p>
+
+        <div class="projects">
+
+            <article class="project">
+
+                <div class="project-number">01</div>
+
+                <h3>Utiilityes</h3>
+
+                <p>
+                    Una libreria Python con varie utility
+                    per semplificare lo sviluppo.
+                </p>
+
+                <a
+                    class="project-link"
+                    href="https://github.com/utiteam-python/utiilityes"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Vedi su GitHub →
+                </a>
+
+            </article>
+
+
+            <article class="project">
+
+                <div class="project-number">02</div>
+
+                <h3>DeWeb</h3>
+
+                <p>
+                    Una libreria Python sviluppata
+                    per creare applicazioni web.
+                </p>
+
+                <a
+                    class="project-link"
+                    href="https://github.com/utiteam-python/DeWeb"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Vedi su GitHub →
+                </a>
+
+            </article>
+
+
+            <article class="project">
+
+                <div class="project-number">03</div>
+
+                <h3>mcOS</h3>
+
+                <p>
+                    Una riproduzione di macOS realizzata
+                    utilizzando HTML, CSS e JavaScript.
+                </p>
+
+                <a
+                    class="project-link"
+                    href="https://github.com/DeMENIGECOmcOS"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Vedi su GitHub →
+                </a>
+
+            </article>
+
+
+            <article class="project">
+
+                <div class="project-number">04</div>
+
+                <h3>Dromi</h3>
+
+                <p>
+                    Un piccolo linguaggio di programmazione
+                    open source.
+                </p>
+
+                <a
+                    class="project-link"
+                    href="https://github.com/dromilang/Dromi"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Vedi su GitHub →
+                </a>
+
+            </article>
+
+
+            <article class="project">
+
+                <div class="project-number">05</div>
+
+                <h3>Faculty Editor</h3>
+
+                <p>
+                    Un editor di testo HTML pensato
+                    per lavorare facilmente con documenti web.
+                </p>
+
+                <a
+                    class="project-link"
+                    href="https://github.com/DeMENIGECO/faculty"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Vedi su GitHub →
+                </a>
+
+            </article>
+
+
+            <article class="project">
+
+                <div class="project-number">06</div>
+
+                <h3>LizardJS</h3>
+
+                <p>
+                    Una piattaforma open source full-stack
+                    per creare applicazioni web con JavaScript
+                    e Node.js.
+                </p>
+
+                <a
+                    class="project-link"
+                    href="https://github.com/DeMENIGECO/lizardjs"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Vedi su GitHub →
+                </a>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- GOALS -->
+
+    <section id="goals">
+
+        <h2 class="section-title">
+            🎯 <span>I miei obiettivi</span>
+        </h2>
+
+        <p class="section-description">
+            Quello che voglio continuare a costruire e imparare.
+        </p>
+
+        <div class="goals">
+
+            <div class="goal">
+                🚀 Creare siti sempre più professionali e completi
+            </div>
+
+            <div class="goal">
+                📚 Imparare nuove tecnologie di sviluppo
+            </div>
+
+            <div class="goal">
+                💼 Pubblicare progetti solidi su GitHub
+            </div>
+
+            <div class="goal">
+                🌍 Costruire il mio portfolio personale
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTACTS -->
+
+    <section id="contacts">
+
+        <h2 class="section-title">
+            📫 <span>Contatti</span>
+        </h2>
+
+        <p class="section-description">
+            Puoi trovarmi qui:
+        </p>
+
+        <div class="contacts">
+
+            <a
+                class="contact"
+                href="https://github.com/DeMENIGECO"
+                target="_blank"
+                rel="noopener"
+            >
+                🐙 GitHub
+            </a>
+
+            <a
+                class="contact"
+                href="mailto:domeni.geco@gmail.com"
+            >
+                📧 Email
+            </a>
+
+            <a
+                class="contact"
+                href="https://youtube.com/@rosario.domenico"
+                target="_blank"
+                rel="noopener"
+            >
+                ▶️ YouTube
+            </a>
+
+            <a
+                class="contact"
+                href="https://marketplace.visualstudio.com/publishers/DromiSofwares"
+                target="_blank"
+                rel="noopener"
+            >
+                🧩 VS Marketplace
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 <strong>DomeniGeco</strong>
+        </p>
+
+        <p>
+            Fatto con ❤️, HTML e CSS 🇮🇹
+        </p>
+
+    </footer>
 
 </body>
 </html>
