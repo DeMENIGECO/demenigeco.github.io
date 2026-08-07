@@ -30,6 +30,7 @@
 
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: 85px;
         }
 
         body {
@@ -44,62 +45,189 @@
             text-decoration: none;
         }
 
-        /* NAVBAR */
+        /* =========================
+           NAVBAR
+        ========================= */
 
         nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            z-index: 100;
+            z-index: 1000;
 
-            background: rgba(7, 16, 11, 0.85);
-            backdrop-filter: blur(12px);
+            background: rgba(7, 16, 11, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
 
             border-bottom: 1px solid var(--border);
         }
 
         .nav-container {
             max-width: 1100px;
+            height: 72px;
             margin: auto;
-            padding: 18px 25px;
+            padding: 0 25px;
 
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
+        /* LOGO */
+
         .logo {
             font-size: 20px;
             font-weight: bold;
+            white-space: nowrap;
         }
 
         .logo span {
             color: var(--green);
         }
 
+        /* DESKTOP MENU */
+
         .nav-links {
             display: flex;
-            gap: 25px;
+            align-items: center;
+            gap: 8px;
             list-style: none;
         }
 
         .nav-links a {
+            display: block;
+
             color: var(--muted);
-            transition: 0.2s;
+            padding: 9px 13px;
+            border-radius: 8px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition:
+                color 0.2s,
+                background 0.2s,
+                transform 0.2s;
         }
 
         .nav-links a:hover {
             color: var(--green);
+            background: rgba(57, 211, 83, 0.08);
+            transform: translateY(-1px);
         }
 
-        /* HERO */
+        /* HAMBURGER */
+
+        .menu-toggle {
+            display: none;
+
+            width: 42px;
+            height: 42px;
+
+            border: 1px solid var(--border);
+            border-radius: 10px;
+
+            background: var(--card);
+            color: var(--text);
+
+            cursor: pointer;
+
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+
+            transition: 0.2s;
+        }
+
+        .menu-toggle:hover {
+            border-color: var(--green);
+        }
+
+        .menu-toggle span {
+            width: 20px;
+            height: 2px;
+            border-radius: 2px;
+            background: currentColor;
+
+            transition:
+                transform 0.25s,
+                opacity 0.25s;
+        }
+
+        /* HAMBURGER APERTO */
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* MOBILE MENU */
+
+        .mobile-menu {
+            display: none;
+
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 20px 18px;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+
+            overflow: hidden;
+        }
+
+        .mobile-menu a {
+            display: block;
+
+            padding: 14px 17px;
+
+            color: var(--muted);
+            font-weight: 600;
+
+            border-bottom: 1px solid var(--border);
+
+            transition: 0.2s;
+        }
+
+        .mobile-menu li:last-child a {
+            border-bottom: none;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--green);
+            background: rgba(57, 211, 83, 0.08);
+            padding-left: 22px;
+        }
+
+        .mobile-menu.open {
+            display: block;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
 
         .hero {
             min-height: 100vh;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             text-align: center;
 
             padding: 120px 20px 80px;
@@ -171,7 +299,9 @@
             color: var(--green);
         }
 
-        /* GENERAL */
+        /* =========================
+           GENERAL
+        ========================= */
 
         section {
             max-width: 1100px;
@@ -193,7 +323,9 @@
             margin-bottom: 35px;
         }
 
-        /* ABOUT */
+        /* =========================
+           ABOUT
+        ========================= */
 
         .about-grid {
             display: grid;
@@ -216,7 +348,9 @@
             color: var(--muted);
         }
 
-        /* TECHNOLOGIES */
+        /* =========================
+           TECHNOLOGIES
+        ========================= */
 
         .technologies {
             display: flex;
@@ -230,13 +364,17 @@
             background: var(--card);
             border: 1px solid var(--border);
             font-weight: bold;
+            transition: 0.2s;
         }
 
         .tech:hover {
             border-color: var(--green);
+            transform: translateY(-2px);
         }
 
-        /* PROJECTS */
+        /* =========================
+           PROJECTS
+        ========================= */
 
         .projects {
             display: grid;
@@ -252,6 +390,13 @@
 
             display: flex;
             flex-direction: column;
+
+            transition: 0.2s;
+        }
+
+        .project:hover {
+            border-color: var(--green-dark);
+            transform: translateY(-3px);
         }
 
         .project-number {
@@ -281,7 +426,9 @@
             text-decoration: underline;
         }
 
-        /* GOALS */
+        /* =========================
+           GOALS
+        ========================= */
 
         .goals {
             display: grid;
@@ -296,7 +443,9 @@
             border-radius: 12px;
         }
 
-        /* CONTACTS */
+        /* =========================
+           CONTACTS
+        ========================= */
 
         .contacts {
             display: flex;
@@ -318,7 +467,9 @@
             transform: translateY(-2px);
         }
 
-        /* FOOTER */
+        /* =========================
+           FOOTER
+        ========================= */
 
         footer {
             border-top: 1px solid var(--border);
@@ -331,12 +482,33 @@
             color: var(--green);
         }
 
-        /* MOBILE */
+        /* =========================
+           MOBILE
+        ========================= */
 
         @media (max-width: 700px) {
 
+            .nav-container {
+                height: 65px;
+                padding: 0 18px;
+            }
+
+            /* Nasconde la navbar desktop */
+
             .nav-links {
                 display: none;
+            }
+
+            /* Mostra hamburger */
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            /* Menu mobile */
+
+            .mobile-menu {
+                padding-bottom: 15px;
             }
 
             .about-grid,
@@ -347,6 +519,15 @@
 
             .hero {
                 min-height: 90vh;
+                padding-top: 100px;
+            }
+
+            .hero-icon {
+                font-size: 55px;
+            }
+
+            .hero p {
+                font-size: 18px;
             }
 
             section {
@@ -357,33 +538,101 @@
                 font-size: 30px;
             }
         }
+
+        /* Desktop: nasconde completamente il menu mobile */
+
+        @media (min-width: 701px) {
+            .mobile-menu {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
+    <!-- =========================
+         NAVBAR
+    ========================= -->
 
     <nav>
+
         <div class="nav-container">
 
             <a href="#" class="logo">
                 <span>Domeni</span>Geco
             </a>
 
+            <!-- MENU DESKTOP -->
+
             <ul class="nav-links">
-                <li><a href="#about">Su di me</a></li>
-                <li><a href="#tech">Tecnologie</a></li>
-                <li><a href="#projects">Progetti</a></li>
-                <li><a href="#goals">Obiettivi</a></li>
-                <li><a href="#contacts">Contatti</a></li>
+
+                <li>
+                    <a href="/">Home</a>
+                </li>
+
+                <li>
+                    <a href="/blog/">Blog</a>
+                </li>
+
+                <li>
+                    <a href="/#projects">Progetti</a>
+                </li>
+
+                <li>
+                    <a href="/#contacts">Contatti</a>
+                </li>
+
+            </ul>
+
+            <!-- HAMBURGER -->
+
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                aria-label="Apri menu"
+                aria-expanded="false"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+        </div>
+
+        <!-- MENU MOBILE -->
+
+        <div class="mobile-menu" id="mobileMenu">
+
+            <ul>
+
+                <li>
+                    <a href="/">Home</a>
+                </li>
+
+                <li>
+                    <a href="/blog/">Blog</a>
+                </li>
+
+                <li>
+                    <a href="/#projects">Progetti</a>
+                </li>
+
+
+                <li>
+                    <a href="/#contacts">Contatti</a>
+                </li>
+
             </ul>
 
         </div>
+
     </nav>
 
 
-    <!-- HERO -->
+    <!-- =========================
+         HERO
+    ========================= -->
 
     <header class="hero">
 
@@ -425,7 +674,9 @@
     </header>
 
 
-    <!-- ABOUT -->
+    <!-- =========================
+         ABOUT
+    ========================= -->
 
     <section id="about">
 
@@ -477,7 +728,9 @@
     </section>
 
 
-    <!-- TECHNOLOGIES -->
+    <!-- =========================
+         TECHNOLOGIES
+    ========================= -->
 
     <section id="tech">
 
@@ -503,7 +756,9 @@
     </section>
 
 
-    <!-- PROJECTS -->
+    <!-- =========================
+         PROJECTS
+    ========================= -->
 
     <section id="projects">
 
@@ -660,7 +915,9 @@
     </section>
 
 
-    <!-- GOALS -->
+    <!-- =========================
+         GOALS
+    ========================= -->
 
     <section id="goals">
 
@@ -695,7 +952,9 @@
     </section>
 
 
-    <!-- CONTACTS -->
+    <!-- =========================
+         CONTACTS
+    ========================= -->
 
     <section id="contacts">
 
@@ -748,7 +1007,9 @@
     </section>
 
 
-    <!-- FOOTER -->
+    <!-- =========================
+         FOOTER
+    ========================= -->
 
     <footer>
 
@@ -761,6 +1022,52 @@
         </p>
 
     </footer>
+
+
+    <!-- =========================
+         JAVASCRIPT MENU
+    ========================= -->
+
+    <script>
+
+        const menuToggle = document.getElementById("menuToggle");
+        const mobileMenu = document.getElementById("mobileMenu");
+
+        menuToggle.addEventListener("click", () => {
+
+            const isOpen = mobileMenu.classList.toggle("open");
+
+            menuToggle.classList.toggle("active", isOpen);
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                isOpen
+            );
+
+        });
+
+
+        // Chiude il menu quando si clicca
+        // su una delle sezioni
+
+        document.querySelectorAll(".mobile-menu a").forEach(link => {
+
+            link.addEventListener("click", () => {
+
+                mobileMenu.classList.remove("open");
+
+                menuToggle.classList.remove("active");
+
+                menuToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            });
+
+        });
+
+    </script>
 
 </body>
 </html>
